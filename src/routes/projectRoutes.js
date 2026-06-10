@@ -4,16 +4,21 @@ import { createProject, getProjects, updateProject, deleteProject } from "../con
 
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
+import { projectSchema } from "../validations/projectValidation.js";
+
+import { validate } from "../middleware/validate.js";
+
 const router = express.Router();
 
 router.use(authMiddleware);
 
-router.post("/", createProject);
+router.post("/", validate(projectSchema), createProject);
 
 router.get("/", getProjects);
 
 router.put("/:id", updateProject);
 
 router.delete("/:id", deleteProject);
+
 
 export default router;

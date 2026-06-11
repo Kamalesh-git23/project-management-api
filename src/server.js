@@ -12,6 +12,9 @@ import AppError from "./utils/AppError.js";
 import errorHandler from "./middleware/errorHandler.js";
 import { success } from "zod";
 
+import swaggerUi from "swagger-ui-express";
+import specs from "./config/swagger.js";
+
 dotenv.config();
 
 const app = express();
@@ -27,6 +30,8 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/attachments", attachmentRoutes);
 app.use("/api/admin", adminRoutes);
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+
 app.get("/", (req, res) => {
     res.json({
         success: true,
@@ -34,11 +39,13 @@ app.get("/", (req, res) => {
     });
 });
 
+
 app.use((req, res, next) => {
     next(
         new AppError(`Route ${req.originalUrl} not found`, 404)
     );
 });
+
 
 app.use(errorHandler);
 

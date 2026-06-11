@@ -2,11 +2,11 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
+import adminRoutes from "./routes/adminRoutes.js"
 import authRoutes from "./routes/authRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
 import attachmentRoutes from "./routes/attachmentRoutes.js";
-import adminRoutes from "./routes/adminRoutes.js"
 
 import AppError from "./utils/AppError.js";
 import errorHandler from "./middleware/errorHandler.js";
@@ -24,11 +24,11 @@ app.use(express.json());
 
 app.use("/uploads", express.static("uploads"));
 
+app.use("/api/admin", adminRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/attachments", attachmentRoutes);
-app.use("/api/admin", adminRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
